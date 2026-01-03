@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <functional> // for std::hash
+
+using namespace std;
+
+size_t hashPassword(const string& password) {
+    return hash<string>{}(password);
+}
+
+int main() {
+    string username, password;
+    int choice;
+
+    while (true) {
+        cout << "\n=== Simple Secure Login System (C++) ===\n";
+        cout << "1) Register\n";
+        cout << "2) Login\n";
+        cout << "3) Exit\n";
+        cout << "Choose an option: ";
+
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
+        cin.ignore(1000, '\n');
+
+        if (choice == 3) {
+            cout << "Program ended.\n";
+            break;
+        }
+
+        if (choice == 1) {
+            cout << "\n--- Register ---\n";
+            cout << "Enter username: ";
+            getline(cin, username);
+
+            cout << "Enter password: ";
+            getline(cin, password);
+
+            size_t hashed = hashPassword(password);
+
+            ofstream out("user.txt");
+            if (!out) {
+                cout << "Error: Could not save user data.\n";
+                continue;
+            }
+
+            out << username << "\n" << hashed << "\n";
+            out.close();
+
+            cout << "Registration successful! User saved.\n";
+        }
+        else if (choice == 2) {
+            cout << "\n--- Login ---\n";
+            cout << "Enter username: ";
+            getline(cin, username);
+
+            cout << "Enter password: ";
+            getline(cin, password);
+
+            ifstream in("user.txt");
+            if (!in) {
+                cout << "No user found. Please register first.\n";
+                continue;
+            }
+
+            string savedUser;
+            size_t savedHash;
+
+            getline(in, savedUser);
+            in >> savedHash;
+            in.close();
+
+            size_t inputHash = hashPassword(password);
+
+            if (username == savedUser && inputHash == savedHash) {
+                cout << "Login successful!\n";
+            } else {
+                cout << "Login failed. Invalid username or password.\n";
+            }
+        }
+        else {
+            cout << "Invalid choice. Please select 1, 2, or 3.\n";
+        }
+    }
+
+    return 0;
+}
