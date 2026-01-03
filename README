@@ -1,0 +1,44 @@
+# Secure Login System (C++)
+
+A simple C++ console application that demonstrates the basics of secure authentication using password hashing and file storage.
+
+This project is designed for beginners learning cybersecurity concepts and C++ fundamentals.
+
+---
+
+## 🚀 Features
+- Register a username and password
+- Hashes passwords instead of storing them in plain text
+- Stores credentials in a local file
+- Validates user login credentials
+- Menu-driven console interface
+- Input validation for user choices
+
+---
+
+## 🧠 Concepts Demonstrated
+- Password hashing using `std::hash`
+- Secure credential storage (hashed passwords)
+- File handling with `fstream`
+- Input validation and control flow
+- Basic authentication logic
+
+---
+
+## ⚙️ How It Works
+1. User registers with a username and password  
+2. The password is hashed using `std::hash`
+3. The username and hashed password are saved to a file
+4. During login, the entered password is hashed again
+5. The hashes are compared to verify authentication
+
+> ⚠️ **Note:**  
+> This project is for educational purposes only. `std::hash` is not suitable for real-world password storage. In production systems, use secure hashing algorithms like bcrypt, PBKDF2, or Argon2.
+
+---
+
+## 🖥️ Build and Run (Windows)
+
+### Compile
+```bash
+g++ secure_login.cpp -o secure_login
